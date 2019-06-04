@@ -17,7 +17,6 @@ namespace Demo.Api.Host.Capabilities
                     options.ReturnHttpNotAcceptable = true;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .ConfigureSwaggerDependencies()
                 .ConfigureJson();
         }
 

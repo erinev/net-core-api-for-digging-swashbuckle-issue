@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Api.Host.Controllers
 {
-    [ApiVersion("1")]
-    [Route("v{version:apiVersion}/anotherDemo")]
+    [Route("v1/anotherDemo")]
     [Produces("application/json")]
     public class AnotherDemoController : ControllerBase
     {

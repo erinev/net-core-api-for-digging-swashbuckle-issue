@@ -20,15 +20,13 @@ namespace Demo.Api.Host
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .ConfigureSwagger(Configuration)
                 .ConfigureMvc();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app)
         {
             app
-                .UseMvc()
-                .UseSwaggerUi(provider);
+                .UseMvc();
         }
     }
 }
