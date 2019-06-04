@@ -35,7 +35,16 @@ namespace Demo.Api.Host.Capabilities
         {
             return app
                 .UseSwagger()
-                .UseSwaggerUI((options => { options.RegisterDefaultEndpoints(provider); }));
+                .UseSwaggerUI((options =>
+                {
+                    foreach (var description in provider.ApiVersionDescriptions)
+                    {
+                        if (string.IsNullOrWhiteSpace(description.GroupName))
+                            continue;
+
+                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
+                    }
+                }));
         }
 
         #region Extensions
@@ -50,13 +59,7 @@ namespace Demo.Api.Host.Capabilities
                 options.GroupNameFormat = "'v'VVV";
             }));
             services.AddApiVersioning();
-            services.AddSwaggerGen(swaggerSetupAction ?? (options =>
-            {
-                options.DescribeAllEnumsAsStrings();
-                options.DescribeStringEnumsInCamelCase();
-                options.IgnoreObsoleteActions();
-                options.IgnoreObsoleteProperties();
-            }));
+            services.AddSwaggerGen(swaggerSetupAction);
 
             return services;
         }
@@ -83,20 +86,6 @@ namespace Demo.Api.Host.Capabilities
                     License = info?.License,
                     TermsOfService = info?.TermsOfService
                 });
-            }
-
-            return options;
-        }
-
-        private static SwaggerUIOptions RegisterDefaultEndpoints(this SwaggerUIOptions options,
-            IApiVersionDescriptionProvider provider)
-        {
-            foreach (var description in provider.ApiVersionDescriptions)
-            {
-                if (string.IsNullOrWhiteSpace(description.GroupName))
-                    continue;
-
-                options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
             }
 
             return options;
