@@ -1,9 +1,12 @@
-﻿using AspNetCore.SwaggerExtensions.Extensions;
+﻿using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Demo.Api.Host.Capabilities
 {
@@ -14,14 +17,11 @@ namespace Demo.Api.Host.Capabilities
             return builder.AddApiExplorer();
         }
 
-        public static IServiceCollection ConfigureSwagger(this IServiceCollection services, IConfigurationRoot configuration)
+        public static IServiceCollection ConfigureSwagger(this IServiceCollection services,
+            IConfigurationRoot configuration)
         {
             return services.AddSwagger(options =>
             {
-                options.SetDefaults();
-                options.IncludeXmlComments();
-                options.RegisterDefaultFilters();
-
                 options.RegisterDefaultDocs(services, new Info
                 {
                     Title = configuration.GetValue<string>("Swagger:Title"),
@@ -30,13 +30,78 @@ namespace Demo.Api.Host.Capabilities
             });
         }
 
-        public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder app, IApiVersionDescriptionProvider provider, IConfigurationRoot configuration)
+        public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder app,
+            IApiVersionDescriptionProvider provider)
         {
-            return app.UseSwaggerWithUi(options =>
-            {
-                options.SetDefaults();
-                options.RegisterDefaultEndpoints(provider);
-            });
+            return app
+                .UseSwagger()
+                .UseSwaggerUI((options => { options.RegisterDefaultEndpoints(provider); }));
         }
+
+        #region Extensions
+
+        private static IServiceCollection AddSwagger(this IServiceCollection services, Action<SwaggerGenOptions> swaggerSetupAction = null)
+        {
+            services.AddMvcCore().AddVersionedApiExplorer((options =>
+            {
+                options.DefaultApiVersion = ApiVersion.Parse("1.0");
+                options.SubstituteApiVersionInUrl = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.GroupNameFormat = "'v'VVV";
+            }));
+            services.AddApiVersioning();
+            services.AddSwaggerGen(swaggerSetupAction ?? (options =>
+            {
+                options.DescribeAllEnumsAsStrings();
+                options.DescribeStringEnumsInCamelCase();
+                options.IgnoreObsoleteActions();
+                options.IgnoreObsoleteProperties();
+            }));
+
+            return services;
+        }
+
+        private static SwaggerGenOptions RegisterDefaultDocs(this SwaggerGenOptions options,
+            IServiceCollection services, Info info = null)
+        {
+            var provider = services.BuildServiceProvider().GetService<IApiVersionDescriptionProvider>();
+
+            if (provider == null)
+                return options;
+
+            foreach (var description in provider.ApiVersionDescriptions)
+            {
+                if (string.IsNullOrEmpty(description.GroupName))
+                    continue;
+
+                options.SwaggerDoc(description.GroupName, new Info
+                {
+                    Version = description.GroupName,
+                    Title = info?.Title,
+                    Description = info?.Description,
+                    Contact = info?.Contact,
+                    License = info?.License,
+                    TermsOfService = info?.TermsOfService
+                });
+            }
+
+            return options;
+        }
+
+        private static SwaggerUIOptions RegisterDefaultEndpoints(this SwaggerUIOptions options,
+            IApiVersionDescriptionProvider provider)
+        {
+            foreach (var description in provider.ApiVersionDescriptions)
+            {
+                if (string.IsNullOrWhiteSpace(description.GroupName))
+                    continue;
+
+                options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
+            }
+
+            return options;
+        }
+
+        #endregion
     }
 }
