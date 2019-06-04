@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace AdRelations.Reader.Host.Capabilities
+namespace Demo.Api.Host.Capabilities
 {
     public static class StartupSwagger
     {

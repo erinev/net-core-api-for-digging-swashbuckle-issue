@@ -1,11 +1,11 @@
-﻿using AdRelations.Reader.Host.Capabilities;
+﻿using Demo.Api.Host.Capabilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AdRelations.Reader.Host
+namespace Demo.Api.Host
 {
     /// <summary>
     /// Application startup configuration class.

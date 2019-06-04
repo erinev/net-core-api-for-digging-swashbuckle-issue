@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace AdRelations.Reader.Host.Capabilities
+namespace Demo.Api.Host.Capabilities
 {
     public static class StartupConfig
     {
