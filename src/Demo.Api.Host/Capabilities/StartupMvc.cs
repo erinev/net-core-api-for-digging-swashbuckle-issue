@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace AdRelations.Reader.Host.Capabilities
+namespace Demo.Api.Host.Capabilities
 {
     public static class StartupMvc
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace AdRelations.Reader.Host
+namespace Demo.Api.Host
 {
     public static class Program
     {

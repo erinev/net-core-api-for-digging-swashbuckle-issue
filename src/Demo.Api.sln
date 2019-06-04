@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdRelations.Reader.Host", "AdRelations.Reader.Host\AdRelations.Reader.Host.csproj", "{20EA095B-0646-467D-9AC6-2B6B4D8680B2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.SwaggerExtensions", "AspNetCore.SwaggerExtensions\AspNetCore.SwaggerExtensions.csproj", "{915AC34A-424F-45B1-88F2-52A7E9053F5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.Api.Host", "Demo.Api.Host\Demo.Api.Host.csproj", "{20EA095B-0646-467D-9AC6-2B6B4D8680B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{20EA095B-0646-467D-9AC6-2B6B4D8680B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20EA095B-0646-467D-9AC6-2B6B4D8680B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20EA095B-0646-467D-9AC6-2B6B4D8680B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{915AC34A-424F-45B1-88F2-52A7E9053F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{915AC34A-424F-45B1-88F2-52A7E9053F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{915AC34A-424F-45B1-88F2-52A7E9053F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{915AC34A-424F-45B1-88F2-52A7E9053F5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
